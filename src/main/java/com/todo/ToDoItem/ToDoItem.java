@@ -2,6 +2,7 @@ package com.todo.ToDoItem;
 
 
 import lombok.*;
+import org.springframework.data.annotation.Id;
 
 @Data
 @Getter @Setter
@@ -9,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class ToDoItem {
+    @Id
     private String id;
     private String title;
     private boolean done;
