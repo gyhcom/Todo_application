@@ -1,0 +1,12 @@
+spring:
+    data:
+        mongodb:
+            host: 130.162.133.248
+            port: 27017
+            username: gyh
+            password: rkddusgh12
+            database: TodoApplication
+            authentication-database: admin
+#spring.data.mongodb.host=130.162.133.248
+#spring.data.mongodb.port=27017
+#spring.data.mongodb.database=TodoApplication
