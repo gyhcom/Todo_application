@@ -10,3 +10,5 @@ spring:
 #spring.data.mongodb.host=130.162.133.248
 #spring.data.mongodb.port=27017
 #spring.data.mongodb.database=TodoApplication
+server:
+    port: 5001
