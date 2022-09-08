@@ -11,4 +11,4 @@ spring:
 #spring.data.mongodb.port=27017
 #spring.data.mongodb.database=TodoApplication
 server:
-    port: 5001
+    port: 8080

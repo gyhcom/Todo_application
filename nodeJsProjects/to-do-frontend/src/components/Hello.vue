@@ -3,7 +3,7 @@
     오늘 해야 할 일
     <ul v-if="toDoItems && toDoItems.length">
       <li v-for="toDoItem of toDoItems">
-        {{toDoItems}}
+        {{toDoItem.title}}
       </li>
     </ul>
   </div>
@@ -20,9 +20,9 @@ export default {
     }
   },
   created () {
-    axios.get('http://localhost:5001/todo/')
-      .then(response => {
-        this.toDoItems = response.data.map(r => r.data())
+    axios.get('http://localhost:8080/todo/')
+      .then(r => {
+        this.toDoItems = r.data.map(r => r.data)
       })
       .catch(e => {
         console.log('error : ', e)
