@@ -11,10 +11,11 @@
           <b-container fluid>
             <b-row class="my-1">
               <b-col sm="10">
-                <b-form-input v-model="title" type="text" placeholder="새 할일을 적으세요" />
+                <b-form-input v-model="newToDoItemRequest.title" type="text"
+                              placeholder="새 할일을 적으세요" v-on:keyup.enter="createTodo" />
               </b-col>
               <b-col sm="2">
-                <b-button variant="outline-primary">추가</b-button>
+                <b-button variant="outline-primary" v-on:click="createTodo">추가</b-button>
               </b-col>
             </b-row>
           </b-container>
@@ -38,21 +39,43 @@
 <script>
 import axios from 'axios'
 
+let baseUrl = 'http://localhost:8080/todo/'
 export default {
   name: 'hello',
   data: () => {
     return {
-      toDoItems: []
+      toDoItems: [],
+      newToDoItemRequest: {}
     }
   },
-  created () {
-    axios.get('http://localhost:8080/todo/')
-      .then(r => {
-        this.toDoItems = r.data.map(r => r.data)
-      })
-      .catch(e => {
-        console.log('error : ', e)
-      })
+  methods: {
+    initToDoList: function () {
+      let vm = this
+      axios.get(baseUrl)
+        .then(response => {
+          vm.toDoItems = response.data.map(response => response.data)
+        })
+        .catch(e => {
+          console.log('error :', e)
+        })
+    },
+    createTodo: function (event) {
+      event.preventDefault()
+      let vm = this
+      if (!vm.newToDoItemRequest.title) return
+      axios.post(baseUrl, vm.newToDoItemRequest)
+        .then(response => {
+          console.log(response)
+          vm.initToDoList()
+          vm.newToDoItemRequest = {}
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    created () {
+      this.initToDoList()
+    }
   }
 }
 </script>
@@ -77,28 +100,6 @@ a {
   color: #35495E;
 }
 </style>
-
-<script>
-import axios from 'axios'
-
-export default {
-  name: 'hello',
-  data: () => {
-    return {
-      toDoItems: []
-    }
-  },
-  created () {
-    axios.get('http://localhost:8080/todo/')
-      .then(r => {
-        this.toDoItems = r.data.map(r => r.data)
-      })
-      .catch(e => {
-        console.log('error : ', e)
-      })
-  }
-}
-</script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
