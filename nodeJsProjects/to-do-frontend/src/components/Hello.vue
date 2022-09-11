@@ -24,12 +24,19 @@
       <b-list-group v-if="toDoItems && toDoItems.length">
         <b-list-group-item
           v-for="toDoItem of toDoItems"
-          v-bind:data="toDoItem.title"
-          v-bind:key="toDoItem.id">
+          v-bind:data="toDoItem.id"
+          v-bind:key="toDoItem.id" style="display: flex;">
+
           <b-form-checkbox
-            v-model="toDoItem.done">
-              {{toDoItem.title}}
+            v-model="toDoItem.done"
+            v-on:change="markDone(toDoItem)">
           </b-form-checkbox>
+
+          <span v-if="toDoItem.done" style="text-decoration: line-through; color:#D3D3D3;">
+          {{ toDoItems.title }}</span>
+
+          <span v-else>{{toDoItem.title}}</span>
+
         </b-list-group-item>
       </b-list-group>
     </b-card>
@@ -68,6 +75,18 @@ export default {
           console.log(response)
           vm.initToDoList()
           vm.newToDoItemRequest = {}
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    markDone: function (toDoItem) {
+      if (!toDoItem) return
+      let vm = this
+      toDoItem.done = !toDoItem.done
+      axios.put(baseUrl, toDoItem)
+        .then(response => {
+          vm.initToDoList()
         })
         .catch(error => {
           console.log(error)

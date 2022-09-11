@@ -18,6 +18,7 @@ public class ToDoItemAdapter {
         }
 
         return ToDoItem.builder()
+                .id(todoItemRequest.getId())
                 .title(todoItemRequest.getTitle())
                 .done(todoItemRequest.isDone())
                 .build();

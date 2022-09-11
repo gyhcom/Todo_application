@@ -42,13 +42,26 @@ public class ToDoItemController {
     public @ResponseBody ToDoItemResponse create(@RequestBody final ToDoItemRequest todoItemRequest) {
         List<String> errors = new ArrayList<>();
         ToDoItem toDoItem = ToDoItemAdapter.toTodoItem(todoItemRequest);
-        try{
+        try {
             toDoItem = toDoItemService.create(toDoItem);
-        }catch (final Exception e){
+        } catch (final Exception e) {
             errors.add(e.getMessage());
             e.printStackTrace();
         }
 
+        return ToDoItemAdapter.toToDoItemResponse(toDoItem, errors);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public @ResponseBody ToDoItemResponse update(@RequestBody final ToDoItemRequest toDoItemRequest) {
+        List<String> errors = new ArrayList<>();
+        ToDoItem toDoItem = ToDoItemAdapter.toTodoItem(toDoItemRequest);
+        try{
+            toDoItem = toDoItemService.update(toDoItem);
+        }catch (final Exception e){
+            errors.add(e.getMessage());
+            e.printStackTrace();
+        }
         return ToDoItemAdapter.toToDoItemResponse(toDoItem, errors);
     }
 }
